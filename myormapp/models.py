@@ -1,4 +1,6 @@
+from operator import mod
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 
@@ -47,5 +49,22 @@ class City(models.Model):
 
     def __str__(self):
         return f"City: {self.name}"
+    
 
 
+class Customer(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.CharField(max_length=30)
+    phone = models.CharField(max_length=12)
+
+    def __str__(self):
+        return f"Customer : {self.name}"
+
+    
+class Orders(models.Model):
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    order_date = models.DateTimeField(auto_now_add=True)
+    total_amount = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"Customer: {self.customer.name} | Total Amount: {self.total_amount}"
